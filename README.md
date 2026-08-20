@@ -1,0 +1,5 @@
+# Colorify
+
+Colorify es una página web estática hecha con Astro para el trabajo práctico diagnóstico de Frontend. La idea es simple: generar colores al azar y ver cómo quedan. Tiene tres secciones: una portada de bienvenida con un botón que te lleva al generador, el generador en sí (un cuadrado que cambia de color al tocar "Generar", muestra el código HEX y lo copia al portapapeles con un botón), y una tercera sección donde podés escribir un código HEX a mano y ver ese color en pantalla. Todo el comportamiento (generar color aleatorio, copiar al portapapeles y validar el código ingresado) está hecho con JavaScript plano, sin librerías externas.
+
+Para levantarlo localmente hace falta tener Node.js instalado; después se corre `npm install` para instalar las dependencias y `npm run dev` para iniciar el servidor de desarrollo, que queda disponible en `http://localhost:4321`. Las herramientas usadas fueron Astro para la estructura de la página, HTML semántico, CSS plano para los estilos y el responsive, y JavaScript vanilla para toda la interactividad.

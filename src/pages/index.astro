@@ -1,0 +1,128 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta
+			name="description"
+			content="Colorify: encontrá el color perfecto para tu proyecto. Generá colores aleatorios o probá un código HEX."
+		/>
+		<title>Colorify — Generador de colores</title>
+	</head>
+	<body>
+		<header class="hero">
+			<div class="hero__content">
+				<h1 class="hero__title">Colorify</h1>
+				<p class="hero__subtitle">Encontrá el color perfecto para tu proyecto.</p>
+				<a href="#generador" class="btn btn--primary">Generar color</a>
+			</div>
+		</header>
+
+		<main>
+			<section id="generador" class="section">
+				<h2 class="section__title">Generador</h2>
+				<p class="section__description">
+					Tocá el botón para generar un color aleatorio.
+				</p>
+
+				<div class="generator">
+					<div id="color-box" class="color-box" style="background-color:#6C63FF;"></div>
+
+					<button id="generate-btn" type="button" class="btn btn--primary">
+						Generar
+					</button>
+
+					<div class="hex-display">
+						<span class="hex-display__label">Código HEX:</span>
+						<span id="hex-code" class="hex-display__value">#6C63FF</span>
+					</div>
+
+					<button id="copy-btn" type="button" class="btn btn--secondary">
+						Copiar
+					</button>
+					<p id="copy-feedback" class="feedback" aria-live="polite"></p>
+				</div>
+			</section>
+
+			<section id="buscador" class="section">
+				<h2 class="section__title">Probar un color</h2>
+				<p class="section__description">
+					Ingresá un código HEX (por ejemplo <code>#6C63FF</code>) y mostralo en pantalla.
+				</p>
+
+				<form id="color-form" class="color-form">
+					<label for="color-input" class="visually-hidden">Código HEX</label>
+					<input
+						id="color-input"
+						type="text"
+						class="color-input"
+						placeholder="#6C63FF"
+						autocomplete="off"
+					/>
+					<button type="submit" class="btn btn--primary">Mostrar</button>
+				</form>
+
+				<p id="search-feedback" class="feedback" aria-live="polite"></p>
+
+				<div id="preview-box" class="color-box color-box--preview"></div>
+			</section>
+		</main>
+
+		
+
+		<script>
+			const colorBox = document.getElementById("color-box");
+			const hexCode = document.getElementById("hex-code");
+			const generateBtn = document.getElementById("generate-btn");
+			const copyBtn = document.getElementById("copy-btn");
+			const copyFeedback = document.getElementById("copy-feedback");
+
+			function randomHexColor() {
+				const value = Math.floor(Math.random() * 0xffffff);
+				return "#" + value.toString(16).padStart(6, "0").toUpperCase();
+			}
+
+			generateBtn.addEventListener("click", () => {
+				const color = randomHexColor();
+				colorBox.style.backgroundColor = color;
+				hexCode.textContent = color;
+				copyFeedback.textContent = "";
+			});
+
+			copyBtn.addEventListener("click", async () => {
+				try {
+					await navigator.clipboard.writeText(hexCode.textContent);
+					copyFeedback.textContent = "¡Copiado!";
+				} catch {
+					copyFeedback.textContent = "No se pudo copiar.";
+				}
+			});
+
+			const colorForm = document.getElementById("color-form");
+			const colorInput = document.getElementById("color-input");
+			const previewBox = document.getElementById("preview-box");
+			const searchFeedback = document.getElementById("search-feedback");
+			const hexPattern = /^#?([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/;
+
+			colorForm.addEventListener("submit", (event) => {
+				event.preventDefault();
+				const value = colorInput.value.trim();
+
+				if (!hexPattern.test(value)) {
+					searchFeedback.textContent = "Código HEX inválido. Ejemplo: #6C63FF";
+					previewBox.style.backgroundColor = "transparent";
+					return;
+				}
+
+				const normalized = value.startsWith("#") ? value : "#" + value;
+				previewBox.style.backgroundColor = normalized;
+				searchFeedback.textContent = `Mostrando ${normalized.toUpperCase()}`;
+			});
+		</script>
+	</body>
+</html>
