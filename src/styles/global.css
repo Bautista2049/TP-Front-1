@@ -55,6 +55,13 @@ body {
 	opacity: 0.95;
 }
 
+.hero__actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
 /* Buttons */
 .btn {
 	display: inline-block;
@@ -79,6 +86,16 @@ body {
 
 .hero .btn--primary:hover {
 	background-color: #f0f0ff;
+}
+
+.hero .btn--secondary {
+	color: #fff;
+	border-color: rgba(255, 255, 255, 0.8);
+}
+
+.hero .btn--secondary:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	color: #fff;
 }
 
 .section .btn--primary {
